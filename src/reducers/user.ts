@@ -1,10 +1,9 @@
-import { LOGIN, LOGOUT } from "src/actions/types";
+import { LOGIN, LOGOUT, SIGNUP } from "src/actions/actionTypes";
 
-import { State, Action } from "../types";
+import { State, Action } from "src/types";
 
 const initialState: State = {
   user: undefined,
-  cookie: undefined,
 };
 
 const userReducer = (
@@ -14,7 +13,9 @@ const userReducer = (
   console.log(type, payload);
   switch (type) {
     case LOGIN:
-      return { ...state, user: payload.user, cookie: payload.cookie };
+      return { ...state, user: payload.user };
+    case SIGNUP:
+      return { ...state, user: payload.user };
     case LOGOUT:
     default:
       return state;
