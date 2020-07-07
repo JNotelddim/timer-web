@@ -36,13 +36,8 @@ const handleLogout = () => {
 
 export const login = (email: string, password: string) => {
   return async (dispatch: Function) => {
-    console.log(`Log in, ${email} , ${password}`);
     try {
-      const { data } = await api.request({
-        url: "/login",
-        method: "GET",
-        data: { email, password },
-      });
+      const { data } = await api.post("/login", { data: { email, password } });
       console.log(data);
       if (data.error) {
         dispatch(handleError(data.error));
@@ -57,7 +52,6 @@ export const login = (email: string, password: string) => {
 
 export const signup = (email: string, password: string) => {
   return async (dispatch: Function) => {
-    console.log(`Sign up, ${email} , ${password}`);
     try {
       const { data } = await api.post("/signup", { data: { email, password } });
       console.log(data);
@@ -72,7 +66,6 @@ export const logout = () => {
   return async (dispatch: Function) => {
     try {
       const { data } = await api.get("/logout");
-      console.log(data);
       dispatch(handleLogout);
     } catch (err) {
       dispatch(handleError(err));
