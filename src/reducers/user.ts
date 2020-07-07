@@ -1,9 +1,10 @@
-import { LOGIN, LOGOUT, SIGNUP } from "src/actions/actionTypes";
+import { LOGIN, LOGOUT, SIGNUP, ERROR } from "src/actions/actionTypes";
 
 import { State, Action } from "src/types";
 
 const initialState: State = {
   user: undefined,
+  error: undefined,
 };
 
 const userReducer = (
@@ -16,7 +17,10 @@ const userReducer = (
       return { ...state, user: payload.user };
     case SIGNUP:
       return { ...state, user: payload.user };
+    case ERROR:
+      return { ...state, error: payload.error };
     case LOGOUT:
+      return initialState;
     default:
       return state;
   }

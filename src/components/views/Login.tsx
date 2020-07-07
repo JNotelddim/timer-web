@@ -7,11 +7,15 @@ import { login } from "src/actions/user";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
 
-  const handleLogin = (event: MouseEvent, email: string, password: string) => {
-    dispatch(login(email, password));
-    history.push("/");
+  const handleLogin = async (
+    event: MouseEvent,
+    email: string,
+    password: string
+  ) => {
+    await dispatch(login(email, password));
+    // history.push("/");
 
     return {}; // TODO: figure out what the return value is actually expected for and use it properly
   };

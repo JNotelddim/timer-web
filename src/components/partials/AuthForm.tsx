@@ -59,7 +59,6 @@ const AuthForm = ({ type, formAction }: AuthFormProps) => {
           <Link to={otherPage.path}>Go to {otherPage.title}</Link>
           <Button
             title={type}
-            type="submit"
             onClick={(event) => formAction(event, email, password)}
           >
             {type}

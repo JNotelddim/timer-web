@@ -1,30 +1,25 @@
-import { LOGIN, SIGNUP, LOGOUT, ERROR } from "./actionTypes";
 import api from "src/actions/apiRequest";
+import { LOGIN, SIGNUP, LOGOUT, ERROR } from "./actionTypes";
 
-export const login = async (email: string, password: string) => {
-  try {
-    //TODO: call API
-    const { data } = await api.get("/login", { data: { email, password } });
-    console.log(data);
-
-    return {
-      type: LOGIN,
-      payload: {
-        user: {},
-      },
-    };
-  } catch (err) {
-    return {
-      type: ERROR,
-      payload: {
-        error: err,
-      },
-    };
-  }
+const handleLoggedIn = ({ user }: any) => {
+  return {
+    type: LOGIN,
+    payload: {
+      user,
+    },
+  };
 };
 
-export const signup = (email: string, password: string) => {
-  //TODO: call API
+const handleError = (error: any) => {
+  return {
+    type: ERROR,
+    payload: {
+      error,
+    },
+  };
+};
+
+const handleSignup = (user: any) => {
   return {
     type: SIGNUP,
     payload: {
@@ -33,12 +28,56 @@ export const signup = (email: string, password: string) => {
   };
 };
 
-export const logout = () => {
-  console.log(`Logout~`);
-  //TODO: call API
+const handleLogout = () => {
   return {
     type: LOGOUT,
   };
 };
 
-export default { login, logout };
+export const login = (email: string, password: string) => {
+  return async (dispatch: Function) => {
+    console.log(`Log in, ${email} , ${password}`);
+    try {
+      const { data } = await api.request({
+        url: "/login",
+        method: "GET",
+        data: { email, password },
+      });
+      console.log(data);
+      if (data.error) {
+        dispatch(handleError(data.error));
+      } else {
+        dispatch(handleLoggedIn(data));
+      }
+    } catch (err) {
+      dispatch(handleError(err));
+    }
+  };
+};
+
+export const signup = (email: string, password: string) => {
+  return async (dispatch: Function) => {
+    console.log(`Sign up, ${email} , ${password}`);
+    try {
+      const { data } = await api.post("/signup", { data: { email, password } });
+      console.log(data);
+      dispatch(handleSignup(data));
+    } catch (err) {
+      dispatch(handleError(err));
+    }
+  };
+};
+
+export const logout = () => {
+  return async (dispatch: Function) => {
+    try {
+      const { data } = await api.get("/logout");
+      console.log(data);
+      dispatch(handleLogout);
+    } catch (err) {
+      dispatch(handleError(err));
+    }
+  };
+};
+
+export default { login, signup, logout };
