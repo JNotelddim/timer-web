@@ -1,22 +1,16 @@
+import { User } from "src/types";
 import api from "src/actions/apiRequest";
-import { LOGIN, SIGNUP, LOGOUT, ERROR } from "./actionTypes";
+import { handleError } from "src/actions/errorHandler";
+import { LOGIN, SIGNUP, LOGOUT } from "src/actions/actionTypes";
 
-const handleLoggedIn = (user: any) => {
+const handleLoggedIn = (user: User) => {
   return {
     type: LOGIN,
     payload: user,
   };
 };
 
-const handleError = (error: { response: { data: string } }) => {
-  const data = error.response ? error.response.data : error;
-  return {
-    type: ERROR,
-    payload: data,
-  };
-};
-
-const handleSignup = (user: any) => {
+const handleSignup = (user: User) => {
   return {
     type: SIGNUP,
     payload: user,
