@@ -10,7 +10,7 @@ export type User = {
 
 export type State = {
   user?: User;
-  error?: string | object;
+  error?: string;
 };
 
 export type Action = {

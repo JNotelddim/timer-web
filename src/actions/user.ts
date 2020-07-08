@@ -10,12 +10,11 @@ const handleLoggedIn = ({ user }: any) => {
   };
 };
 
-const handleError = (error: any) => {
+const handleError = (error: { response: { data: string } }) => {
+  const data = error.response ? error.response.data : error;
   return {
     type: ERROR,
-    payload: {
-      error,
-    },
+    payload: data,
   };
 };
 
@@ -38,11 +37,11 @@ export const login = (email: string, password: string) => {
   return async (dispatch: Function) => {
     try {
       const { data } = await api.post("/login", { data: { email, password } });
-      console.log(data);
       if (data.error) {
         dispatch(handleError(data.error));
       } else {
         dispatch(handleLoggedIn(data));
+        //TODO: set cookie
       }
     } catch (err) {
       dispatch(handleError(err));
@@ -54,8 +53,11 @@ export const signup = (email: string, password: string) => {
   return async (dispatch: Function) => {
     try {
       const { data } = await api.post("/signup", { data: { email, password } });
-      console.log(data);
-      dispatch(handleSignup(data));
+      if (data.error) {
+        dispatch(handleError(data.error));
+      } else {
+        dispatch(handleSignup(data));
+      }
     } catch (err) {
       dispatch(handleError(err));
     }
@@ -65,7 +67,7 @@ export const signup = (email: string, password: string) => {
 export const logout = () => {
   return async (dispatch: Function) => {
     try {
-      const { data } = await api.get("/logout");
+      await api.get("/logout");
       dispatch(handleLogout);
     } catch (err) {
       dispatch(handleError(err));
