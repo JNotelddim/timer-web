@@ -11,6 +11,7 @@ export type User = {
 export type State = {
   user?: User;
   error?: string;
+  isAuthenticated: boolean;
 };
 
 export type Action = {
