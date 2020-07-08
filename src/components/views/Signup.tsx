@@ -1,22 +1,27 @@
 import React, { MouseEvent } from "react";
-import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import AuthForm from "src/components/partials/AuthForm";
+import PageLayout from "src/components/layouts/PageLayout";
 import { signup } from "src/actions/user";
 
 const Signup = () => {
   const dispatch = useDispatch();
-  // const history = useHistory();
 
   const handleSignup = (event: MouseEvent, email: string, password: string) => {
     dispatch(signup(email, password));
-    // history.push("/");
 
     return {}; // TODO: figure out what the return value is actually expected for and use it properly
   };
 
-  return <AuthForm type="Signup" formAction={handleSignup} />;
+  const loginLink = <Link to="/login">Login</Link>;
+
+  return (
+    <PageLayout topBarProps={{ button: loginLink }}>
+      <AuthForm type="Signup" formAction={handleSignup} />
+    </PageLayout>
+  );
 };
 
 export default Signup;

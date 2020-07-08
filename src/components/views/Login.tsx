@@ -1,13 +1,13 @@
 import React, { MouseEvent } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 import AuthForm from "src/components/partials/AuthForm";
+import PageLayout from "src/components/layouts/PageLayout";
 import { login } from "src/actions/user";
 
 const Login = () => {
   const dispatch = useDispatch();
-  // const history = useHistory();
 
   const handleLogin = async (
     event: MouseEvent,
@@ -15,12 +15,17 @@ const Login = () => {
     password: string
   ) => {
     await dispatch(login(email, password));
-    // history.push("/");
 
     return {}; // TODO: figure out what the return value is actually expected for and use it properly
   };
 
-  return <AuthForm type="Login" formAction={handleLogin} />;
+  const signupLink = <Link to="/signup">Signup</Link>;
+
+  return (
+    <PageLayout topBarProps={{ button: signupLink }}>
+      <AuthForm type="Login" formAction={handleLogin} />
+    </PageLayout>
+  );
 };
 
 export default Login;

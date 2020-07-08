@@ -16,7 +16,11 @@ import Route from "src/components/base/Route";
 
 import userReducer from "src/reducers/user";
 
+import "./index.css";
+
 const store = createStore(userReducer, applyMiddleware(thunk));
+
+//TODO: understand why navigating w/ URL resets redux state (including auth state) and boots back to /login
 
 ReactDOM.render(
   <Provider store={store}>

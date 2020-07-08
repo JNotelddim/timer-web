@@ -13,10 +13,6 @@ const AuthForm = ({ type, formAction }: AuthFormProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const error = useSelector(getError);
-  const otherPage = {
-    path: type === "Login" ? "/signup" : "/login",
-    title: type === "Login" ? "Signup" : "Login",
-  };
 
   return (
     <form>
@@ -59,13 +55,7 @@ const AuthForm = ({ type, formAction }: AuthFormProps) => {
           </Box>
         )}
 
-        <Box
-          margin={6}
-          display="flex"
-          width="100%"
-          justifyContent="space-between"
-        >
-          <Link to={otherPage.path}>Go to {otherPage.title}</Link>
+        <Box margin={6} display="flex" width="100%" justifyContent="flex-end">
           <Button
             title={type}
             onClick={(event) => formAction(event, email, password)}

@@ -63,7 +63,10 @@ export const signup = (email: string, password: string) => {
 export const logout = () => {
   return async (dispatch: Function) => {
     try {
-      await api.get("/logout");
+      const response = await api.get("/logout");
+      //TODO: fix logout -- it doens't seem to be working? ~ I'd expect the page to try and rerender after the state updates,
+      // and then for it to get kicked back to /login because the auth state was reset.. but no luck so far.
+      console.log(`Logout response: ${response}`);
       dispatch(handleLogout);
     } catch (err) {
       dispatch(handleError(err));
