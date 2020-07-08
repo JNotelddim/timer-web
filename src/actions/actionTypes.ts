@@ -8,6 +8,9 @@ export const GET_USER = "GET_USER";
 export const GET_WORKOUTS = "GET_WORKOUTS";
 export const GET_WORKOUT_BY_ID = "GET_WORKOUT_BY_ID";
 
+//Other
+export const ERROR = "ERROR";
+
 export default {
   LOGIN,
   LOGOUT,
@@ -15,4 +18,5 @@ export default {
   GET_USER,
   GET_WORKOUTS,
   GET_WORKOUT_BY_ID,
+  ERROR,
 };

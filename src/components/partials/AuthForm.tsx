@@ -1,6 +1,8 @@
 import React, { MouseEvent, useState } from "react";
 import { TextField, Button, Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getError } from "src/selectors/user";
 
 type AuthFormProps = {
   type: "Login" | "Signup";
@@ -10,10 +12,7 @@ type AuthFormProps = {
 const AuthForm = ({ type, formAction }: AuthFormProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const otherPage = {
-    path: type === "Login" ? "/signup" : "/login",
-    title: type === "Login" ? "Signup" : "Login",
-  };
+  const error = useSelector(getError);
 
   return (
     <form>
@@ -50,16 +49,15 @@ const AuthForm = ({ type, formAction }: AuthFormProps) => {
           onChange={(event) => setPassword(event.target.value)}
         />
 
-        <Box
-          margin={6}
-          display="flex"
-          width="100%"
-          justifyContent="space-between"
-        >
-          <Link to={otherPage.path}>Go to {otherPage.title}</Link>
+        {error !== undefined && error.length && (
+          <Box fontSize={10} color="red" marginTop={4}>
+            {error}
+          </Box>
+        )}
+
+        <Box margin={6} display="flex" width="100%" justifyContent="flex-end">
           <Button
             title={type}
-            type="submit"
             onClick={(event) => formAction(event, email, password)}
           >
             {type}

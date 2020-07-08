@@ -1,21 +1,26 @@
-import { LOGIN, LOGOUT } from "src/actions/types";
+import { LOGIN, LOGOUT, SIGNUP, ERROR } from "src/actions/actionTypes";
 
-import { State, Action } from "../types";
+import { State, Action } from "src/types";
 
 const initialState: State = {
+  isAuthenticated: false,
   user: undefined,
-  cookie: undefined,
+  error: undefined,
 };
 
 const userReducer = (
   state: State = initialState,
   { type, payload }: Action
 ) => {
-  console.log(type, payload);
   switch (type) {
     case LOGIN:
-      return { ...state, user: payload.user, cookie: payload.cookie };
+      return { ...state, user: payload, isAuthenticated: true };
+    case SIGNUP:
+      return { ...state, user: payload, isAuthenticated: true };
+    case ERROR:
+      return { ...state, error: payload };
     case LOGOUT:
+      return initialState;
     default:
       return state;
   }

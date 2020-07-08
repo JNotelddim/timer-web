@@ -10,7 +10,8 @@ export type User = {
 
 export type State = {
   user?: User;
-  cookie?: string;
+  error?: string;
+  isAuthenticated: boolean;
 };
 
 export type Action = {
