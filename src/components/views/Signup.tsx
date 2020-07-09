@@ -18,7 +18,7 @@ const Signup = () => {
   const loginLink = <Link to="/login">Login</Link>;
 
   return (
-    <PageLayout topBarProps={{ button: loginLink }}>
+    <PageLayout topBarProps={{ button: loginLink, showNav: false }}>
       <AuthForm type="Signup" formAction={handleSignup} />
     </PageLayout>
   );

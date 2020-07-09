@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
+import { Box } from "@material-ui/core";
 
 import { Workout } from "src/types";
 import { logout } from "src/actions/user";
@@ -12,10 +13,7 @@ function Home() {
   const workouts: Workout[] = useSelector(getStateWorkouts);
   const dispatch = useDispatch();
 
-  console.log(workouts);
-
   useEffect(() => {
-    console.log("Dispatch getWorkouts");
     dispatch(getWorkouts());
   }, []);
 
@@ -25,7 +23,10 @@ function Home() {
 
   return (
     <PageLayout topBarProps={{ button: logoutBtn }}>
-      <div>Home!::</div>
+      <Box>
+        <h3>Workouts: </h3>
+        {workouts && workouts.map((w) => <span>w</span>)}
+      </Box>
     </PageLayout>
   );
 }
