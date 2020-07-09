@@ -31,8 +31,6 @@ export const login = (email: string, password: string) => {
         { email, password },
         { withCredentials: true }
       );
-      console.log(response);
-      console.log(response.headers);
       const { data } = response;
       if (data.error) {
         dispatch(handleError(data.error));
