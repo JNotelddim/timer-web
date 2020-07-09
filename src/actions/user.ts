@@ -26,7 +26,14 @@ const handleLogout = () => {
 export const login = (email: string, password: string) => {
   return async (dispatch: Function) => {
     try {
-      const { data } = await api.post("/login", { data: { email, password } });
+      const response = await api.post(
+        "/login",
+        { email, password },
+        { withCredentials: true }
+      );
+      console.log(response);
+      console.log(response.headers);
+      const { data } = response;
       if (data.error) {
         dispatch(handleError(data.error));
       } else {
@@ -42,7 +49,7 @@ export const login = (email: string, password: string) => {
 export const signup = (email: string, password: string) => {
   return async (dispatch: Function) => {
     try {
-      const { data } = await api.post("/signup", { data: { email, password } });
+      const { data } = await api.post("/signup", { email, password });
       if (data.error) {
         dispatch(handleError(data.error));
       } else {

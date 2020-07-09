@@ -12,7 +12,7 @@ export const getWorkouts = () => {
   return async (dispatch: Function) => {
     try {
       console.log(`Try fetch workouts`);
-      const { data } = await api.get("/workouts");
+      const { data } = await api.get("/workouts", { withCredentials: true });
       console.log(data);
       if (data.error) {
         dispatch(handleError(data.error));

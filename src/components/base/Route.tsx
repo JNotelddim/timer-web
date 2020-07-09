@@ -15,7 +15,7 @@ const CustomRoute = (props: RouteProps) => {
   const history = useHistory();
   const isAuthenticated = useSelector(getIsAuthenticated);
 
-  console.log(`Route ${path} -- isAuthenticated: ${isAuthenticated}`);
+  // console.log(`Route ${path} -- isAuthenticated: ${isAuthenticated}`);
 
   if (isPrivate && !isAuthenticated) {
     //redirect to login
