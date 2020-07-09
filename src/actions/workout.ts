@@ -1,5 +1,5 @@
 import { Workout } from "src/types";
-import { GET_WORKOUTS, GET_WORKOUT_BY_ID } from "src/actions/actionTypes";
+import { GET_WORKOUTS } from "src/actions/actionTypes";
 import api from "src/actions/apiRequest";
 import { handleError } from "src/actions/errorHandler";
 

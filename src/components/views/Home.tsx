@@ -15,7 +15,7 @@ function Home() {
 
   useEffect(() => {
     dispatch(getWorkouts());
-  }, []);
+  }, [dispatch]);
 
   const logoutBtn = (
     <Button onClick={() => dispatch(logout())}> Log out </Button>

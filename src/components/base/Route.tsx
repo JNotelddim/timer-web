@@ -11,11 +11,9 @@ type RouteProps = {
 };
 
 const CustomRoute = (props: RouteProps) => {
-  const { isPrivate = false, children, path } = props;
+  const { isPrivate = false, children } = props;
   const history = useHistory();
   const isAuthenticated = useSelector(getIsAuthenticated);
-
-  // console.log(`Route ${path} -- isAuthenticated: ${isAuthenticated}`);
 
   if (isPrivate && !isAuthenticated) {
     //redirect to login
