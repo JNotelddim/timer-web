@@ -1,22 +1,16 @@
+import { User } from "src/types";
 import api from "src/actions/apiRequest";
-import { LOGIN, SIGNUP, LOGOUT, ERROR } from "./actionTypes";
+import { handleError } from "src/actions/errorHandler";
+import { LOGIN, SIGNUP, LOGOUT } from "src/actions/actionTypes";
 
-const handleLoggedIn = (user: any) => {
+const handleLoggedIn = (user: User) => {
   return {
     type: LOGIN,
     payload: user,
   };
 };
 
-const handleError = (error: { response: { data: string } }) => {
-  const data = error.response ? error.response.data : error;
-  return {
-    type: ERROR,
-    payload: data,
-  };
-};
-
-const handleSignup = (user: any) => {
+const handleSignup = (user: User) => {
   return {
     type: SIGNUP,
     payload: user,
@@ -32,7 +26,12 @@ const handleLogout = () => {
 export const login = (email: string, password: string) => {
   return async (dispatch: Function) => {
     try {
-      const { data } = await api.post("/login", { data: { email, password } });
+      const response = await api.post(
+        "/login",
+        { email, password },
+        { withCredentials: true }
+      );
+      const { data } = response;
       if (data.error) {
         dispatch(handleError(data.error));
       } else {
@@ -48,7 +47,7 @@ export const login = (email: string, password: string) => {
 export const signup = (email: string, password: string) => {
   return async (dispatch: Function) => {
     try {
-      const { data } = await api.post("/signup", { data: { email, password } });
+      const { data } = await api.post("/signup", { email, password });
       if (data.error) {
         dispatch(handleError(data.error));
       } else {

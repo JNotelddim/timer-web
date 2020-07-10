@@ -1,15 +1,15 @@
 import { LOGIN, LOGOUT, SIGNUP, ERROR } from "src/actions/actionTypes";
 
-import { State, Action } from "src/types";
+import { UserState, Action } from "src/types";
 
-const initialState: State = {
+const initialState: UserState = {
   isAuthenticated: false,
   user: undefined,
   error: undefined,
 };
 
 const userReducer = (
-  state: State = initialState,
+  state: UserState = initialState,
   { type, payload }: Action
 ) => {
   switch (type) {

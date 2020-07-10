@@ -1,7 +1,7 @@
-import { State } from "src/types";
+import { UserState } from "src/types";
 
-export const getUser = (state: State) => state.user;
+export const getUser = (state: UserState) => state.user;
 
-export const getError = (state: State) => state.error;
+export const getError = (state: UserState) => state.error;
 
-export const getIsAuthenticated = (state: State) => state.isAuthenticated;
+export const getIsAuthenticated = (state: UserState) => state.isAuthenticated;

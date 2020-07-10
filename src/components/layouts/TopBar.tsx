@@ -1,12 +1,20 @@
-import React, { ReactNode } from "react";
-import { Box } from "@material-ui/core";
+import React, { ReactNode, MouseEvent } from "react";
+import { Box, IconButton } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 
 export type TopBarProps = {
   title?: string;
   button?: ReactNode;
+  toggleDrawer?: Function;
+  showNav?: boolean;
 };
 
-const TopBar = ({ title, button }: TopBarProps) => {
+const TopBar = ({
+  title,
+  button,
+  toggleDrawer = () => console.log("Missing `toggleDrawer()` handler"),
+  showNav = true,
+}: TopBarProps) => {
   return (
     <Box
       display="flex"
@@ -17,6 +25,11 @@ const TopBar = ({ title, button }: TopBarProps) => {
       fontSize={24}
       alignItems="center"
     >
+      {showNav && (
+        <IconButton onClick={(event: MouseEvent) => toggleDrawer()}>
+          <MenuIcon />
+        </IconButton>
+      )}
       {title || "Timer App"}
       {button}
     </Box>

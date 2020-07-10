@@ -1,6 +1,5 @@
 import React, { MouseEvent, useState } from "react";
 import { TextField, Button, Box } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getError } from "src/selectors/user";
 
@@ -32,6 +31,7 @@ const AuthForm = ({ type, formAction }: AuthFormProps) => {
         <TextField
           label="Email"
           type="email"
+          autoComplete="email"
           fullWidth
           required
           value={email}
@@ -43,6 +43,7 @@ const AuthForm = ({ type, formAction }: AuthFormProps) => {
         <TextField
           label="Password"
           type="password"
+          autoComplete={type === "Login" ? "current password" : "new password"}
           fullWidth
           required
           value={password}
