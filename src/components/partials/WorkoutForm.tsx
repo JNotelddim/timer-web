@@ -53,7 +53,7 @@ const WorkoutForm = () => {
 
   return (
     <form>
-      <Box display="flex" flexDirection="column" maxWidth={600}>
+      <Box display="flex" flexDirection="column" maxWidth={600} margin="auto">
         <TextField
           label="Workout Title"
           fullWidth
@@ -62,21 +62,31 @@ const WorkoutForm = () => {
         />
 
         {sets &&
-          sets.length &&
+          sets.length > 0 &&
           sets.map((set) => (
-            <Box bgcolor="cyan">
+            <Box
+              boxShadow={2}
+              borderRadius={8}
+              margin={3}
+              padding={3}
+              display="flex"
+              flexDirection="column"
+            >
+              {/* TODO: handle typing in inputs lmao -- maybe replace "handleAddSet/Exercise" and just collect values on submit? */}
               <TextField label="Set Title" value={set.title} />
               <TextField label="Reps" value={set.reps} type="number" />
 
               {set.exercises &&
-                set.exercises.length &&
+                set.exercises.length > 0 &&
                 set.exercises.map((exercise) => <Box>Exercise</Box>)}
             </Box>
           ))}
 
-        <IconButton onClick={handleAddSet}>
-          <Add />
-        </IconButton>
+        <Box display="flex" alignSelf="flex-end">
+          <IconButton onClick={handleAddSet}>
+            <Add />
+          </IconButton>
+        </Box>
       </Box>
     </form>
   );
