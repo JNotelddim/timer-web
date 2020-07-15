@@ -41,7 +41,7 @@ ReactDOM.render(
           <Route path="/account" isPrivate>
             <Account />
           </Route>
-          <Route path="/new-workout" isPrivate>
+          <Route path="/new-workout">
             <NewWorkout />
           </Route>
         </Switch>
