@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import { reducer as formReducer } from "redux-form";
 
 import { Switch } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -16,10 +17,17 @@ import NewWorkout from "src/components/views/NewWorkout";
 import Route from "src/components/base/Route";
 
 import userReducer from "src/reducers/user";
+import workoutReducer from "src/reducers/workout";
 
 import "./index.css";
 
-const store = createStore(userReducer, applyMiddleware(thunk));
+const rootReducer = combineReducers({
+  user: userReducer,
+  workout: workoutReducer,
+  form: formReducer,
+});
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 //TODO: understand why navigating w/ URL resets redux state (including auth state) and boots back to /login
 

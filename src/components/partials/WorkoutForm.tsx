@@ -1,5 +1,6 @@
-import React, { useState, ChangeEvent } from "react";
-import { Box, TextField, IconButton } from "@material-ui/core";
+import React, { ChangeEvent } from "react";
+import { Field, reduxForm } from "redux-form";
+import { Box, TextField, IconButton, Button } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
 import { INewSet, INewWorkout, INewExercise } from "src/types";
@@ -31,20 +32,30 @@ const WorkoutForm = () => {
   // has "add exercise" btn
   // ^ creates new exercise: {title, description, reps, duration}
 
+  const handleSubmit = (values: any) => {
+    console.log(values);
+    debugger;
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Box display="flex" flexDirection="column" maxWidth={600} margin="auto">
-        <TextField
-          label="Workout Title"
-          fullWidth
-          required
-          value={title}
-          onChange={(e) => {
-            title = e.currentTarget.value;
-          }}
+        <Field
+          name="title"
+          component={(field: {
+            input: { value: any; onChange: (event: ChangeEvent) => void };
+          }) => (
+            <TextField
+              label="Workout title"
+              fullWidth
+              value={field.input.value}
+              onChange={field.input.onChange}
+            />
+          )}
+          type="text"
         />
 
-        {sets &&
+        {/* {sets &&
           sets.length > 0 &&
           sets.map((set) => (
             <Box
@@ -75,7 +86,7 @@ const WorkoutForm = () => {
                 set.exercises.length > 0 &&
                 set.exercises.map((exercise) => <Box>Exercise</Box>)}
             </Box>
-          ))}
+          ))} */}
 
         <Box display="flex" alignSelf="flex-end">
           <IconButton
@@ -86,9 +97,13 @@ const WorkoutForm = () => {
             <Add />
           </IconButton>
         </Box>
+
+        <Box display="flex" alignSelf="flex-end">
+          <Button type="submit">Submit</Button>
+        </Box>
       </Box>
     </form>
   );
 };
 
-export default WorkoutForm;
+export default reduxForm({ form: "workout" })(WorkoutForm);

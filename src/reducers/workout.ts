@@ -18,3 +18,5 @@ export const workoutReducer = (
       return state;
   }
 };
+
+export default workoutReducer;
