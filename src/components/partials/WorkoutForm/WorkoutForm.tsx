@@ -3,7 +3,8 @@ import { Field, reduxForm } from "redux-form";
 import { Box, TextField, IconButton, Button } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
-import { INewSet, INewWorkout, INewExercise, InputField } from "src/types";
+import { INewSet, INewWorkout, INewExercise } from "src/types";
+import TextFieldInput from "src/components/partials/WorkoutForm/components/TextFieldInput";
 
 const initialExercise: INewExercise = {
   reps: 6,
@@ -20,10 +21,6 @@ const initialWorkout: INewWorkout = {
   title: "",
   sets: [],
 };
-
-const InputComponent = ({ input: { value, onChange }, label }: InputField) => (
-  <TextField label={label} fullWidth value={value} onChange={onChange} />
-);
 
 const WorkoutForm = () => {
   const [workout, setWorkout] = useState<INewWorkout>({ ...initialWorkout });
@@ -50,7 +47,7 @@ const WorkoutForm = () => {
           name="title"
           value={title}
           type="text"
-          component={InputComponent}
+          component={TextFieldInput}
           onChange={(event: ChangeEvent<HTMLInputElement>) =>
             setWorkout({ ...workout, title: event.currentTarget.value })
           }
@@ -106,7 +103,7 @@ const WorkoutForm = () => {
         </Box>
 
         <Box display="flex" alignSelf="flex-end">
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Save</Button>
         </Box>
       </Box>
     </form>
