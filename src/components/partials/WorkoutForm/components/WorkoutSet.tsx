@@ -1,22 +1,49 @@
 import React, { ChangeEvent, SetStateAction } from "react";
-import { Box } from "@material-ui/core";
 import { Field } from "redux-form";
+import { Box, IconButton } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
 
-import { INewSet, INewWorkout } from "src/types";
+import { INewSet, INewExercise } from "src/types";
 import TextFieldInput from "./TextFieldInput";
+import { getId } from "../helperFns";
+
+const initialExercise: INewExercise = {
+  id: getId(),
+  reps: 6,
+  duration: 60,
+};
 
 type SetProps = {
   set: INewSet;
-  addWorkoutSet: (set: INewSet) => void;
   updateWorkoutSet: (set: INewSet) => void;
 };
 
-const WorkoutSet = ({ set, addWorkoutSet, updateWorkoutSet }: SetProps) => {
+const WorkoutSet = ({ set, updateWorkoutSet }: SetProps) => {
+  const addExercise = () => {
+    updateWorkoutSet({
+      ...set,
+      exercises: [...set.exercises, { ...initialExercise, id: getId() }],
+    });
+  };
+
+  const updateExercise = (exercise: INewExercise) => {
+    updateWorkoutSet({
+      ...set,
+      exercises: [
+        ...set.exercises.filter((e) => e.id !== exercise.id),
+        exercise,
+      ],
+    });
+  };
+
+  console.log(set);
+  console.log(set.exercises);
+
   return (
     <Box
       boxShadow={2}
       borderRadius={8}
-      margin={3}
+      marginY={3}
       padding={3}
       display="flex"
       flexDirection="column"
@@ -30,15 +57,6 @@ const WorkoutSet = ({ set, addWorkoutSet, updateWorkoutSet }: SetProps) => {
         }
         component={TextFieldInput}
       />
-
-      {/* <TextField
-        label="Set Title"
-        margin="normal"
-        value={set.title}
-        onChange={(event) => {
-          set.title = event.target.value;
-        }}
-      /> */}
 
       <Field
         label="Reps"
@@ -55,23 +73,61 @@ const WorkoutSet = ({ set, addWorkoutSet, updateWorkoutSet }: SetProps) => {
         component={TextFieldInput}
       />
 
-      {/* <TextField
-        label="Reps"
-        value={set.reps}
-        type="number"
-        margin="normal"
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          // set.reps = event.currentTarget.value;
-        }}
-      /> */}
-
       {set.exercises &&
         set.exercises.length > 0 &&
-        set.exercises.map((exercise) => (
-          <Box key={exercise.id} margin={6}>
-            Exercise
+        set.exercises.map((exercise: INewExercise) => (
+          <Box
+            key={exercise.id}
+            margin={1}
+            marginTop={3}
+            borderRadius={12}
+            padding={4}
+            bgcolor="lightgrey"
+          >
+            <Field
+              label="Reps"
+              name={`set-${set.id}-exercise-${exercise.id}-reps`}
+              value={exercise.reps}
+              type="number"
+              component={TextFieldInput}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                const numericalValue: number = Number.parseInt(
+                  event.currentTarget.value
+                );
+                updateExercise({ ...exercise, reps: numericalValue });
+              }}
+            />
+            <Field
+              label="Duration (s)"
+              name={`set-${set.id}-exercise-${exercise.id}-duration`}
+              value={exercise.duration}
+              type="number"
+              component={TextFieldInput}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                const numericalValue: number = Number.parseInt(
+                  event.currentTarget.value
+                );
+                updateExercise({ ...exercise, duration: numericalValue });
+              }}
+            />
           </Box>
         ))}
+
+      <Box display="flex" alignSelf="flex-end" my={4}>
+        <IconButton
+          onClick={() => {
+            updateWorkoutSet({
+              ...set,
+              exercises: [
+                ...set.exercises,
+                { ...initialExercise, id: getId() },
+              ],
+            });
+          }}
+        >
+          <Add />
+        </IconButton>
+      </Box>
     </Box>
   );
 };

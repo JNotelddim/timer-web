@@ -1,26 +1,18 @@
 import React, { ChangeEvent, useState } from "react";
 import { Field, reduxForm } from "redux-form";
-import { Box, TextField, IconButton, Button } from "@material-ui/core";
+import { Box, IconButton, Button } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
-import { INewSet, INewWorkout, INewExercise } from "src/types";
+import { INewSet, INewWorkout } from "src/types";
 import TextFieldInput from "src/components/partials/WorkoutForm/components/TextFieldInput";
 import WorkoutSet from "./components/WorkoutSet";
-
-let inc = 1;
-const getId = () => (inc++).toString();
-
-const initialExercise: INewExercise = {
-  id: getId(),
-  reps: 6,
-  duration: 60,
-};
+import { getId } from "./helperFns";
 
 const initialSet: INewSet = {
   id: getId(),
   title: "",
   reps: 2,
-  exercises: [{ ...initialExercise }],
+  exercises: [],
 };
 
 const initialWorkout: INewWorkout = {
@@ -45,11 +37,7 @@ const WorkoutForm = () => {
     // debugger;
   };
 
-  // const setWorkoutSets = (updatedSets: Array<INewSet>) => {
-  //   setWorkout({ ...workout, sets: updatedSets });
-  // };
-
-  const addWorkoutSet = (set: INewSet) => {
+  const addWorkoutSet = () => {
     setWorkout({
       ...workout,
       sets: [...workout.sets, { ...initialSet, id: getId() }],
@@ -57,14 +45,9 @@ const WorkoutForm = () => {
   };
 
   const updateWorkoutSet = (set: INewSet) => {
-    const updatedSets = [...workout.sets.filter((s) => s.id !== set.id), set];
-    console.log(
-      `Sets len, before: ${workout.sets.length}, after: ${workout.sets.length}`
-    );
     setWorkout({
       ...workout,
-      // sets: [...workout.sets.filter((s) => s.id !== set.id), set],
-      sets: updatedSets,
+      sets: [...workout.sets.filter((s) => s.id !== set.id), set],
     });
   };
 
@@ -88,20 +71,12 @@ const WorkoutForm = () => {
             <WorkoutSet
               key={set.id}
               set={set}
-              addWorkoutSet={addWorkoutSet}
               updateWorkoutSet={updateWorkoutSet}
             />
           ))}
 
         <Box display="flex" alignSelf="flex-end" my={4}>
-          <IconButton
-            onClick={() => {
-              setWorkout({
-                ...workout,
-                sets: [...workout.sets, { ...initialSet, id: getId() }],
-              });
-            }}
-          >
+          <IconButton onClick={addWorkoutSet}>
             <Add />
           </IconButton>
         </Box>

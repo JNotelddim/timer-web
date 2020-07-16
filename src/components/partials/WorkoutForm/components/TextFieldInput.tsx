@@ -7,14 +7,17 @@ const TextFieldInput = ({
   input: { value, onChange },
   label,
   type,
-}: InputField) => (
-  <TextField
-    label={label}
-    fullWidth
-    value={value}
-    onChange={onChange}
-    type={type}
-  />
-);
+}: InputField) => {
+  console.log("Input Value", value);
+  return (
+    <TextField
+      label={label}
+      fullWidth
+      value={value}
+      onChange={onChange}
+      type={type}
+    />
+  );
+};
 
 export default TextFieldInput;
