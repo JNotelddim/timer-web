@@ -31,10 +31,12 @@ export type InputField = {
     value: any;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   };
+  type: string;
 };
 
 // Workout Form ~ new workout creation types -- less strict
 export interface INewExercise {
+  id: string;
   order?: number;
   title?: string;
   description?: string;
@@ -43,6 +45,7 @@ export interface INewExercise {
 }
 
 export interface INewSet {
+  id: string;
   title?: string;
   reps?: number;
   exercises: INewExercise[];

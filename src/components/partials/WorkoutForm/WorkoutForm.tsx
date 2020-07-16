@@ -5,13 +5,19 @@ import { Add } from "@material-ui/icons";
 
 import { INewSet, INewWorkout, INewExercise } from "src/types";
 import TextFieldInput from "src/components/partials/WorkoutForm/components/TextFieldInput";
+import WorkoutSet from "./components/WorkoutSet";
+
+let inc = 1;
+const getId = () => (inc++).toString();
 
 const initialExercise: INewExercise = {
+  id: getId(),
   reps: 6,
   duration: 60,
 };
 
 const initialSet: INewSet = {
+  id: getId(),
   title: "",
   reps: 2,
   exercises: [{ ...initialExercise }],
@@ -39,12 +45,35 @@ const WorkoutForm = () => {
     // debugger;
   };
 
+  // const setWorkoutSets = (updatedSets: Array<INewSet>) => {
+  //   setWorkout({ ...workout, sets: updatedSets });
+  // };
+
+  const addWorkoutSet = (set: INewSet) => {
+    setWorkout({
+      ...workout,
+      sets: [...workout.sets, { ...initialSet, id: getId() }],
+    });
+  };
+
+  const updateWorkoutSet = (set: INewSet) => {
+    const updatedSets = [...workout.sets.filter((s) => s.id !== set.id), set];
+    console.log(
+      `Sets len, before: ${workout.sets.length}, after: ${workout.sets.length}`
+    );
+    setWorkout({
+      ...workout,
+      // sets: [...workout.sets.filter((s) => s.id !== set.id), set],
+      sets: updatedSets,
+    });
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Box display="flex" flexDirection="column" maxWidth={600} margin="auto">
         <Field
           label="Workout Title"
-          name="title"
+          name="workout-title"
           value={title}
           type="text"
           component={TextFieldInput}
@@ -55,38 +84,13 @@ const WorkoutForm = () => {
 
         {sets &&
           sets.length > 0 &&
-          sets.map((set, index) => (
-            <Box
-              key={set.title || index}
-              boxShadow={2}
-              borderRadius={8}
-              margin={3}
-              padding={3}
-              display="flex"
-              flexDirection="column"
-            >
-              <TextField
-                label="Set Title"
-                margin="normal"
-                value={set.title}
-                onChange={(event) => {
-                  set.title = event.target.value;
-                }}
-              />
-              <TextField
-                label="Reps"
-                value={set.reps}
-                type="number"
-                margin="normal"
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  // set.reps = event.currentTarget.value;
-                }}
-              />
-
-              {set.exercises &&
-                set.exercises.length > 0 &&
-                set.exercises.map((exercise) => <Box margin={6}>Exercise</Box>)}
-            </Box>
+          sets.map((set) => (
+            <WorkoutSet
+              key={set.id}
+              set={set}
+              addWorkoutSet={addWorkoutSet}
+              updateWorkoutSet={updateWorkoutSet}
+            />
           ))}
 
         <Box display="flex" alignSelf="flex-end" my={4}>
@@ -94,7 +98,7 @@ const WorkoutForm = () => {
             onClick={() => {
               setWorkout({
                 ...workout,
-                sets: [...workout.sets, { ...initialSet }],
+                sets: [...workout.sets, { ...initialSet, id: getId() }],
               });
             }}
           >
