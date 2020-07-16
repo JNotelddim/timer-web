@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react";
+
 // Workouts -- Hierarchy: Workout > Set[] > Exercise[]
 export type Exercise = {
   id: string;
@@ -20,6 +22,15 @@ export type Workout = {
   id: string;
   title: string;
   content: string;
+};
+
+// General Forms
+export type InputField = {
+  label: string;
+  input: {
+    value: any;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  };
 };
 
 // Workout Form ~ new workout creation types -- less strict

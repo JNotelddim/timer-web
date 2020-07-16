@@ -3,7 +3,7 @@ import { Field, reduxForm } from "redux-form";
 import { Box, TextField, IconButton, Button } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
-import { INewSet, INewWorkout, INewExercise } from "src/types";
+import { INewSet, INewWorkout, INewExercise, InputField } from "src/types";
 
 const initialExercise: INewExercise = {
   reps: 6,
@@ -21,18 +21,8 @@ const initialWorkout: INewWorkout = {
   sets: [],
 };
 
-const InputComponent = (field: {
-  input: {
-    value: any;
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  };
-}) => (
-  <TextField
-    label="Workout title"
-    fullWidth
-    value={field.input.value}
-    onChange={field.input.onChange}
-  />
+const InputComponent = ({ input: { value, onChange }, label }: InputField) => (
+  <TextField label={label} fullWidth value={value} onChange={onChange} />
 );
 
 const WorkoutForm = () => {
@@ -56,19 +46,21 @@ const WorkoutForm = () => {
     <form onSubmit={handleSubmit}>
       <Box display="flex" flexDirection="column" maxWidth={600} margin="auto">
         <Field
+          label="Workout Title"
           name="title"
           value={title}
+          type="text"
+          component={InputComponent}
           onChange={(event: ChangeEvent<HTMLInputElement>) =>
             setWorkout({ ...workout, title: event.currentTarget.value })
           }
-          component={InputComponent}
-          type="text"
         />
 
         {sets &&
           sets.length > 0 &&
-          sets.map((set) => (
+          sets.map((set, index) => (
             <Box
+              key={set.title || index}
               boxShadow={2}
               borderRadius={8}
               margin={3}
