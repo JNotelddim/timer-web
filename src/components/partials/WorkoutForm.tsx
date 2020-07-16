@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Field, reduxForm } from "redux-form";
 import { Box, TextField, IconButton, Button } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
@@ -21,11 +21,26 @@ const initialWorkout: INewWorkout = {
   sets: [],
 };
 
+const InputComponent = (field: {
+  input: {
+    value: any;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  };
+}) => (
+  <TextField
+    label="Workout title"
+    fullWidth
+    value={field.input.value}
+    onChange={field.input.onChange}
+  />
+);
+
 const WorkoutForm = () => {
-  let workout = { ...initialWorkout };
+  const [workout, setWorkout] = useState<INewWorkout>({ ...initialWorkout });
 
   let { title, sets } = workout;
 
+  console.log(workout);
   //one workout, starts w/ no sets
   // has "add set" btn,
   // ^ creates new set w/ no exercises : {title, exercises, reps }
@@ -34,7 +49,7 @@ const WorkoutForm = () => {
 
   const handleSubmit = (values: any) => {
     console.log(values);
-    debugger;
+    // debugger;
   };
 
   return (
@@ -42,20 +57,15 @@ const WorkoutForm = () => {
       <Box display="flex" flexDirection="column" maxWidth={600} margin="auto">
         <Field
           name="title"
-          component={(field: {
-            input: { value: any; onChange: (event: ChangeEvent) => void };
-          }) => (
-            <TextField
-              label="Workout title"
-              fullWidth
-              value={field.input.value}
-              onChange={field.input.onChange}
-            />
-          )}
+          value={title}
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            setWorkout({ ...workout, title: event.currentTarget.value })
+          }
+          component={InputComponent}
           type="text"
         />
 
-        {/* {sets &&
+        {sets &&
           sets.length > 0 &&
           sets.map((set) => (
             <Box
@@ -68,6 +78,7 @@ const WorkoutForm = () => {
             >
               <TextField
                 label="Set Title"
+                margin="normal"
                 value={set.title}
                 onChange={(event) => {
                   set.title = event.target.value;
@@ -77,6 +88,7 @@ const WorkoutForm = () => {
                 label="Reps"
                 value={set.reps}
                 type="number"
+                margin="normal"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                   // set.reps = event.currentTarget.value;
                 }}
@@ -84,14 +96,17 @@ const WorkoutForm = () => {
 
               {set.exercises &&
                 set.exercises.length > 0 &&
-                set.exercises.map((exercise) => <Box>Exercise</Box>)}
+                set.exercises.map((exercise) => <Box margin={6}>Exercise</Box>)}
             </Box>
-          ))} */}
+          ))}
 
-        <Box display="flex" alignSelf="flex-end">
+        <Box display="flex" alignSelf="flex-end" my={4}>
           <IconButton
             onClick={() => {
-              workout.sets.push({ ...initialSet });
+              setWorkout({
+                ...workout,
+                sets: [...workout.sets, { ...initialSet }],
+              });
             }}
           >
             <Add />
