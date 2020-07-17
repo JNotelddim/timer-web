@@ -15,14 +15,20 @@ const initialSet: INewSet = {
   exercises: [],
 };
 
-const initialWorkout: INewWorkout = {
-  title: "",
-  sets: [],
+// const initialWorkout: INewWorkout = {
+//   title: "",
+//   sets: [],
+// };
+
+type WorkoutFormProps = {
+  initialValues: INewWorkout;
+  setWorkout: (workout: INewWorkout) => void;
 };
 
-const WorkoutForm = () => {
-  const [workout, setWorkout] = useState<INewWorkout>({ ...initialWorkout });
+const WorkoutForm = ({ initialValues, setWorkout }: WorkoutFormProps) => {
+  // const [workout, setWorkout] = useState<INewWorkout>({ ...initialWorkout });
 
+  const workout = initialValues;
   let { title, sets } = workout;
 
   console.log(workout);
@@ -89,4 +95,6 @@ const WorkoutForm = () => {
   );
 };
 
-export default reduxForm({ form: "workout" })(WorkoutForm);
+export default reduxForm({ form: "workout", enableReinitialize: true })(
+  WorkoutForm
+);

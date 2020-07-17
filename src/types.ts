@@ -77,4 +77,5 @@ export type UserState = {
 
 export type WorkoutState = {
   workouts: Workout[];
+  currentWorkout?: INewWorkout;
 };
